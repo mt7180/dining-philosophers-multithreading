@@ -88,8 +88,11 @@ if __name__ == "__main__":
     rd.seed()
     chopsticks = [Chopstick(i) for i in range(NUMBER_OF_PHILOSOPHERS)]
     #print(chopsticks)
-    philosophers = [Philosopher(i, chopsticks[i], chopsticks[i+1] ) for i in range(NUMBER_OF_PHILOSOPHERS-1)]
-    philosophers.append(Philosopher(4, chopsticks[4], chopsticks[0]))   # oder: + list(...)
+    philosophers = [
+        Philosopher(i, chopsticks[i], chopsticks[i+1] ) 
+        for i in range(NUMBER_OF_PHILOSOPHERS-1)
+    ]
+    philosophers.append(Philosopher(4, chopsticks[4], chopsticks[0]))
     # print(philosophers)
     queue = rd.sample(range(NUMBER_OF_PHILOSOPHERS), NUMBER_OF_PHILOSOPHERS)
     print(queue)
@@ -99,7 +102,7 @@ if __name__ == "__main__":
         while philosophers[n].is_alive():
             # go one further in the circle
             n = (
-                n + 1 if n < (NUMBER_OF_PHILOSOPHERS-1) 
+                n + 1 if n < (NUMBER_OF_PHILOSOPHERS-1)
                 else n - (NUMBER_OF_PHILOSOPHERS-1)
             )
         print(f'starting Thread {n}')
