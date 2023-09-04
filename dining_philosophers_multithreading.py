@@ -6,6 +6,8 @@ import threading as trd
 import random as rd
 
 
+NUMBER_OF_PHILOSOPHERS = 5
+
 class Philosopher(trd.Thread):
     """ class representing the philosopher who wants to eat or think """
 
@@ -84,18 +86,22 @@ class Chopstick:
 
 if __name__ == "__main__":
     rd.seed()
-    chopsticks = [Chopstick(i) for i in range(5)]
+    chopsticks = [Chopstick(i) for i in range(NUMBER_OF_PHILOSOPHERS)]
     #print(chopsticks)
-    philosophers = [Philosopher(i, chopsticks[i], chopsticks[i+1] ) for i in range(4)]
+    philosophers = [Philosopher(i, chopsticks[i], chopsticks[i+1] ) for i in range(NUMBER_OF_PHILOSOPHERS-1)]
     philosophers.append(Philosopher(4, chopsticks[4], chopsticks[0]))   # oder: + list(...)
     # print(philosophers)
-    queue = rd.sample(range(5), 5)
+    queue = rd.sample(range(NUMBER_OF_PHILOSOPHERS), NUMBER_OF_PHILOSOPHERS)
     print(queue)
 
     for rand_num in queue:
         n = rand_num
         while philosophers[n].is_alive():
-            n = n + 1 if n <= 3 else n - 4
+            # go one further in the circle
+            n = (
+                n + 1 if n < (NUMBER_OF_PHILOSOPHERS-1) 
+                else n - (NUMBER_OF_PHILOSOPHERS-1)
+            )
         print(f'starting Thread {n}')
         philosophers[n].start()
 
